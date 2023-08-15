@@ -8,7 +8,7 @@ const client = axios.create({
 
 client.interceptors.request.use(
 	async (config) => {
-		const tokens = getJwt();
+		const tokens = await getJwt();
 		if (!tokens) return config;
 		config.headers.Authorization = `Bearer ${tokens.access}`;
 		return config;

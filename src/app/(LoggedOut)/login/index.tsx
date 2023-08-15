@@ -14,7 +14,7 @@ export default function Login() {
 					</Text>
 				</View>
 			</View>
-			<View className='w-full pt-6 -mt-2 bg-white rounded-t-2xl px-2 pb-4'>
+			<View className='w-full pt-6 -mt-2 bg-white rounded-2xl px-2 pb-4'>
 				<LoginForm />
 				<View className='flex flex-row justify-center'>
 					<Text className='text-sm'>

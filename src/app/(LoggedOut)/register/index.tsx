@@ -14,7 +14,7 @@ export default function Register() {
 					</Text>
 				</View>
 			</View>
-			<ScrollView className='py-6 -mt-2 bg-white rounded-t-2xl px-2'>
+			<ScrollView className='pt-6 -mt-2 bg-white rounded-2xl px-2'>
 				<RegistrationForm />
 				<View className='flex flex-row justify-center'>
 					<Text className='text-sm mr-1'>

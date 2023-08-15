@@ -5,6 +5,8 @@ import {Slot, SplashScreen} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
 import {useEffect} from 'react';
 import {View} from 'react-native';
+import {RootSiblingParent} from 'react-native-root-siblings';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Logo from 'src/assets/images/logo.svg';
 import '../styles/global.css';
 
@@ -47,8 +49,12 @@ export default function RootLayout() {
 function RootLayoutNav() {
 	return (
 		<ThemeProvider value={DefaultTheme}>
-			<StatusBar style='dark' />
-			<Slot />
+			<RootSiblingParent>
+				<StatusBar style='dark' />
+				<SafeAreaView className='flex-1'>
+					<Slot />
+				</SafeAreaView>
+			</RootSiblingParent>
 		</ThemeProvider>
 	);
 }

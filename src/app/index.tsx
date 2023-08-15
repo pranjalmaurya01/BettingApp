@@ -1,8 +1,21 @@
-import {Redirect, useRootNavigationState} from 'expo-router';
+import {router, useRootNavigationState} from 'expo-router';
+import {useEffect} from 'react';
+import {getJwt} from 'src/axios/jwt';
 
 export default function Index() {
 	const rootNavigationState = useRootNavigationState();
-	if (!rootNavigationState?.key) return null;
+	useEffect(() => {
+		if (!rootNavigationState?.key) {
+			(async () => {
+				const tokens = await getJwt();
+				if (tokens) {
+					router.replace('/dashboard');
+					return;
+				}
+				router.replace('/login');
+			})();
+		}
+	}, [rootNavigationState]);
 
-	return <Redirect href={'/login/'} />;
+	return null;
 }
