@@ -16,7 +16,7 @@ export default function User({updateIsLoading}: {updateIsLoading: () => void}) {
 				updateIsLoading();
 			}
 			const data = await Promise.all([getUserData(), getButtonData()]);
-			if (data) {
+			if (data[0] && data[1]) {
 				setData(data[0]);
 				setButtonData(data[1]);
 				updateIsLoading();
