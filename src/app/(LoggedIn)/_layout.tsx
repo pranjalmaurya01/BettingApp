@@ -1,4 +1,4 @@
-import {Tabs, useSegments} from 'expo-router';
+import {Tabs} from 'expo-router';
 import {useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import WinIconFocussed from 'src/assets/images/btn1-selected.svg';
@@ -8,15 +8,11 @@ import AccountIcon from 'src/assets/images/btn2.svg';
 import User from 'src/components/User';
 
 export default function Layout() {
-	const segments = useSegments() as string[];
 	const [isLoading, setIsLoading] = useState(true);
 
 	function updateIsLoading() {
 		setIsLoading(false);
 	}
-
-	const isAccountSelected =
-		segments.includes('(options)') || segments.includes('account');
 
 	return (
 		<>
@@ -69,7 +65,7 @@ export default function Layout() {
 					}}
 				/>
 				<Tabs.Screen
-					name='account/index'
+					name='(options)'
 					options={{
 						tabBarButton: (x) => {
 							return (
@@ -81,14 +77,12 @@ export default function Layout() {
 								>
 									<View
 										className={`${
-											(x.accessibilityState?.selected ||
-												isAccountSelected) &&
+											x.accessibilityState?.selected &&
 											'bg-brand'
 										} flex-row justify-center items-center p-1 rounded-3xl`}
 									>
 										<View className='bg-white rounded-full'>
-											{x.accessibilityState?.selected ||
-											isAccountSelected ? (
+											{x.accessibilityState?.selected ? (
 												<AccountIconFocussed />
 											) : (
 												<AccountIcon />
@@ -96,10 +90,8 @@ export default function Layout() {
 										</View>
 										<Text
 											className={`font-semibold px-3 text-gray-900 ${
-												(x.accessibilityState
-													?.selected ||
-													isAccountSelected) &&
-												'text-white'
+												x.accessibilityState
+													?.selected && 'text-white'
 											}
 											`}
 										>
@@ -109,12 +101,6 @@ export default function Layout() {
 								</TouchableOpacity>
 							);
 						},
-					}}
-				/>
-				<Tabs.Screen
-					name='(options)'
-					options={{
-						href: null,
 					}}
 				/>
 			</Tabs>

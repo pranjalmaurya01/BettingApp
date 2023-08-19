@@ -8,6 +8,7 @@ import useUser from 'src/store/useUser';
 export default function Profile() {
 	const data = useUser((state) => state.data);
 	if (!data) return null;
+
 	return (
 		<View>
 			<View className='px-4 pt-4 pb-20 bg-brand text-white'>
@@ -26,14 +27,19 @@ export default function Profile() {
 			<View className='bg-white pb-10'>
 				<View className='flex-row justify-center -mt-16'>
 					<View className='border-white border-2 rounded-full'>
-						<Image
-							source={
-								data.profile_picture
-									? getBaseUrl() + data.profile_picture
-									: require('src/assets/images/profile.jpg')
-							}
-							className='h-32 w-32 rounded-full'
-						/>
+						{data.profile_picture ? (
+							<Image
+								className='h-32 w-32 rounded-full'
+								source={{
+									uri: getBaseUrl() + data.profile_picture,
+								}}
+							/>
+						) : (
+							<Image
+								source={require('src/assets/images/profile.jpg')}
+								className='h-32 w-32 rounded-full'
+							/>
+						)}
 					</View>
 				</View>
 				<View className='mx-2 mt-4'>

@@ -6,7 +6,8 @@ const request = <T>(
 	method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
 	url: string,
 	params?: object,
-	requestData?: object
+	requestData?: object,
+	headers?: object
 ) =>
 	(async () => {
 		try {
@@ -15,6 +16,7 @@ const request = <T>(
 				url,
 				data: requestData,
 				params,
+				headers,
 			});
 
 			const {data, status}: {data: T; status: number} = response;

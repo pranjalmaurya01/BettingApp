@@ -1,36 +1,36 @@
-import * as ImagePicker from 'expo-image-picker';
 import {Formik} from 'formik';
-import mime from 'mime';
 import {useState} from 'react';
 import {
 	ActivityIndicator,
-	Keyboard,
 	Text,
 	TextInput,
 	TouchableOpacity,
 	View,
 } from 'react-native';
+import Toast from 'react-native-root-toast';
 import request from 'src/axios/request';
-import useUser, {UserDataI, getUserData} from 'src/store/useUser';
-import {object, string} from 'yup';
+import useUser from 'src/store/useUser';
+import {object, ref, string} from 'yup';
 import {buttonTextVariants, buttonVariants} from './Button';
 
 const regSchema = object({
-	first_name: string().required('Required Field'),
-	last_name: string().required('Required Field'),
-	profile_picture: string(),
+	old_password: string().required('Required Field'),
+	password: string()
+		.required('Required Field')
+		.min(6, 'Your password is too short.'),
+	password2: string()
+		.required('Required Field')
+		.oneOf([ref('password')], 'Passwords must match'),
 });
 
-export default function ProfileForm({user}: {user: UserDataI}) {
-	const setUserData = useUser((state) => state.setData);
+export default function ChangePasswordForm() {
+	const user = useUser((state) => state.data);
 
 	const [state, setState] = useState<{
 		isLoading: boolean;
-		showPassword: boolean;
 		errors: string[];
 	}>({
 		isLoading: false,
-		showPassword: false,
 		errors: [],
 	});
 
@@ -38,64 +38,40 @@ export default function ProfileForm({user}: {user: UserDataI}) {
 		setState((prev) => ({...prev, ...obj}));
 	};
 
-	const pickImage = async (setImage: any) => {
-		Keyboard.dismiss();
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.All,
-			allowsEditing: true,
-			aspect: [1, 1],
-			quality: 1,
-		});
-		if (!result.canceled) {
-			setImage('profile_picture', result.assets[0].uri);
-		}
-		Keyboard.dismiss();
-	};
-
-	async function UpdateProfileData() {
-		const userData = await getUserData();
-		if (userData) {
-			setUserData(userData);
-			return;
-		}
-	}
-
 	async function onSubmit({
-		first_name,
-		last_name,
-		profile_picture,
+		old_password,
+		password,
+		password2,
+		resetForm,
 	}: {
-		first_name: string;
-		last_name: string;
-		profile_picture: string;
+		old_password: string;
+		password: string;
+		password2: string;
+		resetForm: () => void;
 	}) {
 		updateState({
 			isLoading: true,
 		});
-		const fd = new FormData();
-		fd.append('first_name', first_name);
-		fd.append('last_name', last_name);
-		if (profile_picture) {
-			const img: any = {
-				uri: profile_picture,
-				name: profile_picture.split('/').pop(),
-				type: mime.getType(profile_picture),
-			};
-			fd.append('profile_picture', img);
-		}
 		const {HttpStatusCode, status, data} = await request(
-			'PATCH',
-			'/account/update-profile/',
+			'PUT',
+			`/account/change_password/${user?.id}/`,
 			{},
-			fd,
-			{'content-type': 'multipart/form-data'}
+			{old_password, password, password2}
 		);
 		updateState({
 			isLoading: false,
 		});
-		console.log(data, status);
 		if (HttpStatusCode.OK === status && data) {
-			UpdateProfileData();
+			Toast.show(`Password Updated`, {
+				duration: Toast.durations.LONG,
+			});
+			resetForm();
+			return;
+		}
+		if (HttpStatusCode.BAD_REQUEST && data) {
+			const errors = Object.keys(data).map((e) => data[e]);
+			updateState({errors});
+			return;
 		}
 	}
 	return (
@@ -103,14 +79,15 @@ export default function ProfileForm({user}: {user: UserDataI}) {
 			validationSchema={regSchema}
 			validateOnBlur
 			initialValues={{
-				first_name: user.first_name,
-				last_name: user.last_name,
-				profile_picture: '',
+				old_password: '',
+				password: '',
+				password2: '',
 			}}
-			onSubmit={onSubmit}
+			onSubmit={(e, actions) =>
+				onSubmit({...e, resetForm: actions.resetForm})
+			}
 		>
 			{({
-				setFieldValue,
 				handleChange,
 				handleBlur,
 				handleSubmit,
@@ -120,50 +97,52 @@ export default function ProfileForm({user}: {user: UserDataI}) {
 			}) => (
 				<View>
 					<View>
-						<Text>First Name</Text>
+						<Text>Old Password</Text>
 						<View className='w-full h-12 relative'>
 							<TextInput
+								secureTextEntry
 								onFocus={() => {
 									setState((prev) => ({
 										...prev,
 										errors: [],
 									}));
 								}}
-								onChangeText={handleChange('first_name')}
-								onBlur={handleBlur('first_name')}
-								value={values.first_name}
+								onChangeText={handleChange('old_password')}
+								onBlur={handleBlur('old_password')}
+								value={values.old_password}
 								className='absolute left-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 px-3'
 							/>
 						</View>
 						<View className='ml-2'>
-							{errors.first_name && touched.first_name && (
+							{errors.old_password && touched.old_password && (
 								<Text className='text-[#590212] '>
-									{errors.first_name}
+									{errors.old_password}
 								</Text>
 							)}
 						</View>
 					</View>
 					<View className='mt-4'>
 						<View>
-							<Text>Last Name</Text>
+							<Text>Password</Text>
 							<View className='w-full h-12 relative'>
 								<TextInput
+									secureTextEntry
 									onFocus={() => {
 										setState((prev) => ({
 											...prev,
 											errors: [],
 										}));
 									}}
-									onChangeText={handleChange('last_name')}
-									onBlur={handleBlur('last_name')}
-									value={values.last_name}
+									onChangeText={handleChange('password')}
+									onBlur={handleBlur('password')}
+									value={values.password}
 									className='absolute left-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 mb-4 px-3'
 								/>
 							</View>
 							<View className='ml-2'>
-								{errors.last_name && touched.last_name && (
+								{errors.password && touched.password && (
 									<Text className='text-[#590212] '>
-										{errors.last_name}
+										{errors.password}
 									</Text>
 								)}
 							</View>
@@ -171,40 +150,33 @@ export default function ProfileForm({user}: {user: UserDataI}) {
 					</View>
 					<View className='mt-4'>
 						<View>
-							<Text>Profile Image</Text>
+							<Text>Confirm Password</Text>
 							<View className='w-full h-12 relative'>
 								<TextInput
-									onPressIn={() => {
-										pickImage(setFieldValue);
-									}}
+									secureTextEntry
 									onFocus={() => {
 										setState((prev) => ({
 											...prev,
 											errors: [],
 										}));
 									}}
-									onChangeText={handleChange(
-										'profile_picture'
-									)}
-									onBlur={handleBlur('profile_picture')}
-									value={
-										values.profile_picture && 'Profile Img'
-									}
+									onChangeText={handleChange('password2')}
+									onBlur={handleBlur('password2')}
+									value={values.password2}
 									className='absolute left-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 mb-4 px-3'
 								/>
 							</View>
 							<View className='ml-2'>
-								{errors.profile_picture &&
-									touched.profile_picture && (
-										<Text className='text-[#590212] '>
-											{errors.profile_picture}
-										</Text>
-									)}
+								{errors.password2 && touched.password2 && (
+									<Text className='text-[#590212] '>
+										{errors.password2}
+									</Text>
+								)}
 							</View>
 						</View>
 					</View>
 
-					<View>
+					<View className='mt-2'>
 						{state.errors.map((e) => (
 							<Text
 								key={e}
