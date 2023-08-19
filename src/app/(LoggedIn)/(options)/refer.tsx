@@ -66,14 +66,16 @@ export default function Profile() {
 				</View>
 				<View className='mt-4'>
 					<TouchableOpacity
-						className={buttonVariants()}
+						className={buttonVariants.default}
 						onPress={async () => {
 							await Clipboard.setStringAsync(
 								'' + user.refral_code
 							);
 						}}
 					>
-						<Text className={buttonTextVariants()}>Copy Code</Text>
+						<Text className={buttonTextVariants.default}>
+							Copy Code
+						</Text>
 					</TouchableOpacity>
 				</View>
 			</View>

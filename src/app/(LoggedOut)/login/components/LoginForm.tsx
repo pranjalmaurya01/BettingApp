@@ -15,13 +15,11 @@ import PasswordIcon from 'src/assets/images/password.svg';
 import {setJwt} from 'src/axios/jwt';
 import request from 'src/axios/request';
 import {buttonTextVariants, buttonVariants} from 'src/components/Button';
-import {z} from 'zod';
-import {toFormikValidationSchema} from 'zod-formik-adapter';
 
-const formSchema = z.object({
-	email: z.string().email(),
-	password: z.string().min(6, 'Invalid Password'),
-});
+// const formSchema = z.object({
+// 	email: z.string().email(),
+// 	password: z.string().min(6, 'Invalid Password'),
+// });
 
 export default function LoginForm() {
 	const [state, setState] = useState<{
@@ -76,7 +74,6 @@ export default function LoginForm() {
 			<Text className='text-center text-lg'>Login to Play</Text>
 			<Formik
 				validateOnBlur
-				validationSchema={toFormikValidationSchema(formSchema)}
 				initialValues={{email: '', password: ''}}
 				onSubmit={onSubmit}
 			>
@@ -167,7 +164,7 @@ export default function LoginForm() {
 							<TouchableOpacity
 								activeOpacity={state.isLoading ? 1 : 0.7}
 								disabled={state.isLoading}
-								className={buttonVariants()}
+								className={buttonVariants.default}
 								onPress={() => handleSubmit()}
 							>
 								{state.isLoading && (
@@ -176,7 +173,7 @@ export default function LoginForm() {
 										color='white'
 									/>
 								)}
-								<Text className={buttonTextVariants()}>
+								<Text className={buttonTextVariants.default}>
 									Sign In
 								</Text>
 							</TouchableOpacity>

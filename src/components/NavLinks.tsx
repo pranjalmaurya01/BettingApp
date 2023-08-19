@@ -145,14 +145,12 @@ export default function NavLinks() {
 			</TouchableOpacity>
 			<View className='mt-5'>
 				<TouchableOpacity
-					className={buttonVariants({variant: 'outline'})}
+					className={buttonVariants.outline}
 					onPress={() => {
 						onPress(7);
 					}}
 				>
-					<Text className={buttonTextVariants({variant: 'outline'})}>
-						Logout
-					</Text>
+					<Text className={buttonTextVariants.outline}>Logout</Text>
 				</TouchableOpacity>
 			</View>
 		</ScrollView>

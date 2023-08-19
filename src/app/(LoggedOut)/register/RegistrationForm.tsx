@@ -118,8 +118,8 @@ export default function RegistrationForm() {
 				</View>
 
 				<View className='my-2'>
-					<TouchableOpacity className={buttonVariants()}>
-						<Text className={buttonTextVariants()}>
+					<TouchableOpacity className={buttonVariants.default}>
+						<Text className={buttonTextVariants.default}>
 							Create Account
 						</Text>
 					</TouchableOpacity>

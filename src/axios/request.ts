@@ -25,6 +25,7 @@ const request = <T>(
 				HttpStatusCode,
 			};
 		} catch (err: any) {
+			console.log(err);
 			// const error = err as AxiosError
 			if (!axios.isAxiosError(err)) {
 				return {status: undefined, HttpStatusCode};
