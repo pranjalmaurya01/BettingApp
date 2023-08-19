@@ -1,9 +1,11 @@
-import {Text, View} from 'react-native';
+import AccountHeader from 'src/components/AccountHeader';
+import Transaction from 'src/components/Transaction';
 
 export default function Profile() {
 	return (
-		<View>
-			<Text>transaction</Text>
-		</View>
+		<>
+			<AccountHeader title='Transaction History' />
+			<Transaction />
+		</>
 	);
 }

@@ -1,4 +1,5 @@
 import request from 'src/axios/request';
+import {setUserAsyncStorage} from 'src/axios/user';
 import {logout} from 'src/utils';
 import {create} from 'zustand';
 
@@ -16,31 +17,15 @@ export async function getUserData() {
 
 const useUser = create<UserI>((set) => ({
 	data: null,
-	setData: ({
-		email,
-		first_name,
-		id,
-		last_name,
-		phone_no,
-		profile_picture,
-		refral_code,
-		refral_wallet,
-		referral_count,
-	}) =>
-		set((state) => ({
+	setData: ({...e}) => {
+		setUserAsyncStorage(e);
+		return set((state) => ({
 			...state,
 			data: {
-				email,
-				first_name,
-				id,
-				last_name,
-				phone_no,
-				profile_picture,
-				refral_code,
-				refral_wallet,
-				referral_count,
+				...e,
 			},
-		})),
+		}));
+	},
 }));
 
 export default useUser;
