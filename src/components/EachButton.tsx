@@ -1,4 +1,4 @@
-import {ImageBackground, Text, TouchableOpacity} from 'react-native';
+import {ImageBackground, Text, TouchableOpacity, View} from 'react-native';
 import {buttonTextVariants, buttonVariants} from './Button';
 
 const colorCombination: {[key: number]: keyof typeof buttonVariants} = {
@@ -15,27 +15,52 @@ const colorCombination: {[key: number]: keyof typeof buttonVariants} = {
 export default function EachButton({
 	text,
 	idx,
-	// tBetAmt,
-	// disabled,
+	tBetAmt,
+	disabled,
 	onPress,
 }: {
 	text: number;
 	idx: number;
-	// tBetAmt: number;
-	// disabled: boolean;
+	tBetAmt: number;
+	disabled: boolean;
 	onPress: () => void;
 }) {
 	const bClassName = buttonVariants[colorCombination[idx]];
-
 	if (colorCombination[idx] !== undefined)
 		return (
-			<TouchableOpacity className={bClassName} onPress={onPress}>
-				<Text className={buttonTextVariants.eb}>{text}</Text>
-			</TouchableOpacity>
+			<View>
+				<TouchableOpacity
+					className={bClassName}
+					onPress={onPress}
+					disabled={disabled}
+				>
+					<Text className={buttonTextVariants.eb}>{text}</Text>
+				</TouchableOpacity>
+				<Text className='text-center text-gray-600 text-sm'>
+					{tBetAmt}
+				</Text>
+			</View>
 		);
 	if (idx === 8)
 		return (
-			<ImageBackground source={require('src/assets/images/nine.png')}>
+			<View>
+				<ImageBackground source={require('src/assets/images/nine.png')}>
+					<TouchableOpacity
+						className={buttonVariants.number_common}
+						onPress={onPress}
+					>
+						<Text className={buttonTextVariants.eb}>{text}</Text>
+					</TouchableOpacity>
+				</ImageBackground>
+				<Text className='text-center text-gray-600 text-sm'>
+					{tBetAmt}
+				</Text>
+			</View>
+		);
+
+	return (
+		<View>
+			<ImageBackground source={require('src/assets/images/ten.png')}>
 				<TouchableOpacity
 					className={buttonVariants.number_common}
 					onPress={onPress}
@@ -43,16 +68,7 @@ export default function EachButton({
 					<Text className={buttonTextVariants.eb}>{text}</Text>
 				</TouchableOpacity>
 			</ImageBackground>
-		);
-
-	return (
-		<ImageBackground source={require('src/assets/images/ten.png')}>
-			<TouchableOpacity
-				className={buttonVariants.number_common}
-				onPress={onPress}
-			>
-				<Text className={buttonTextVariants.eb}>{text}</Text>
-			</TouchableOpacity>
-		</ImageBackground>
+			<Text className='text-center text-gray-600 text-sm'>{tBetAmt}</Text>
+		</View>
 	);
 }
