@@ -12,15 +12,15 @@ export async function getButtonData() {
 }
 
 export interface WsI {
-	data: unknown;
-	buttonData: BetButtonsI[] | undefined;
+	data: get_bet_numberI | undefined;
+	buttonData: BetButtonsI[];
 	setButtonData: (data: BetButtonsI[]) => void;
-	setData: (data: number) => void;
+	setData: (data: get_bet_numberI) => void;
 }
 
 const useWs = create<WsI>((set) => ({
 	data: undefined,
-	buttonData: undefined,
+	buttonData: [],
 	setButtonData: (data) =>
 		set((state) => ({
 			...state,

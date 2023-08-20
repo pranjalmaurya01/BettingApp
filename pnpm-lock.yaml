@@ -35,6 +35,9 @@ dependencies:
   expo-image-picker:
     specifier: ~14.3.2
     version: 14.3.2(expo@49.0.7)
+  expo-linear-gradient:
+    specifier: ~12.3.0
+    version: 12.3.0(expo@49.0.7)
   expo-linking:
     specifier: ~5.0.2
     version: 5.0.2(expo@49.0.7)
@@ -86,12 +89,18 @@ dependencies:
   react-native-screens:
     specifier: ~3.22.0
     version: 3.22.0(react-native@0.72.3)(react@18.2.0)
+  react-native-super-grid:
+    specifier: ^5.0.0
+    version: 5.0.0(react-native@0.72.3)(react@18.2.0)
   react-native-svg:
     specifier: 13.9.0
     version: 13.9.0(react-native@0.72.3)(react@18.2.0)
   react-native-web:
     specifier: ~0.19.6
     version: 0.19.6(react-dom@18.2.0)(react@18.2.0)
+  react-use-websocket:
+    specifier: ^4.3.1
+    version: 4.3.1(react-dom@18.2.0)(react@18.2.0)
   yup:
     specifier: ^1.2.0
     version: 1.2.0
@@ -5555,6 +5564,14 @@ packages:
       expo: 49.0.7(@babel/core@7.20.2)
     dev: false
 
+  /expo-linear-gradient@12.3.0(expo@49.0.7):
+    resolution: {integrity: sha512-f9e+Oxe5z7fNQarTBZXilMyswlkbYWQHONVfq8MqmiEnW3h9XsxxmVJLG8uVQSQPUsbW+x1UUT/tnU6mkMWeLg==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.7(@babel/core@7.20.2)
+    dev: false
+
   /expo-linking@5.0.2(expo@49.0.7):
     resolution: {integrity: sha512-SPQus0+tYGx9c69Uw4wmdo3rkKX8vRT1vyJz/mvkpSlZN986s0NmP/V0M5vDv5Zv2qZzVdqJyuITFe0Pg5aI+A==}
     dependencies:
@@ -9295,6 +9312,17 @@ packages:
       warn-once: 0.1.1
     dev: false
 
+  /react-native-super-grid@5.0.0(react-native@0.72.3)(react@18.2.0):
+    resolution: {integrity: sha512-iivBlleD7ufDtKSd74w1w86bvIzUXHaLjKwRuqMOUQwXxm5hoIGT8YtJiWtS5/bkH38xLw/T0eEn0NHFgzmYiA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-native: '>=0.59.0'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-native: 0.72.3(@babel/core@7.20.2)(@babel/preset-env@7.22.10)(react@18.2.0)
+    dev: false
+
   /react-native-svg-transformer@1.1.0(react-native-svg@13.9.0)(react-native@0.72.3):
     resolution: {integrity: sha512-I/yIxryg7FH5DKAvKHL0VsOfARHPkXdgIl0AUhndWpQzUYgpFs+kJcCP7XoZR+gn0t36JE+q9f4x3p/arZFx5g==}
     peerDependencies:
@@ -9417,6 +9445,16 @@ packages:
       react-shallow-renderer: 16.15.0(react@18.2.0)
       scheduler: 0.23.0
     dev: true
+
+  /react-use-websocket@4.3.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-zHPLWrgcqydJaak2O5V9hiz4q2dwkwqNQqpgFVmSuPxLZdsZlnDs8DVHy3WtHH+A6ms/8aHIyX7+7ulOcrnR0Q==}
+    peerDependencies:
+      react: '>= 18.0.0'
+      react-dom: '>= 18.0.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /react@18.2.0:
     resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==}
