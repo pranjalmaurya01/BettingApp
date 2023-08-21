@@ -63,28 +63,40 @@ export default function BetButtons({
 		amount: string;
 		isLoading: boolean;
 		errors: string[];
+		global: boolean;
+		globalAmt: string;
 	}>({
+		global: false,
+		globalAmt: '',
 		amount: '',
 		isLoading: false,
 		errors: [],
 	});
 
-	async function createBet() {
+	async function createBet(numberId?: number) {
 		setForm((prev) => ({
 			...prev,
 			isLoading: true,
 		}));
+		let bet_amount = 0;
+		let number_id = null;
+		if (form.global) {
+			bet_amount = +form.globalAmt;
+			number_id = numberId;
+		} else {
+			bet_amount = +form.amount;
+			number_id = state.selectedNumber?.id;
+		}
 		const {HttpStatusCode, status, data} = await request(
 			'POST',
 			'/bet/create/',
 			{},
 			{
 				user_id: user?.id,
-				number_id: state.selectedNumber?.id,
-				bet_amount: +form.amount,
+				number_id,
+				bet_amount,
 			}
 		);
-
 		if (status === HttpStatusCode.BAD_REQUEST && data) {
 			setForm((prev) => ({
 				...prev,
@@ -122,6 +134,10 @@ export default function BetButtons({
 							idx={index}
 							tBetAmt={bettingData[item.bet_number]}
 							onPress={() => {
+								if (form.global) {
+									createBet(item.id);
+									return;
+								}
 								setState((prev) => ({
 									...prev,
 									selectedNumber: item,
@@ -133,6 +149,39 @@ export default function BetButtons({
 					)
 				}
 			/>
+			<View className='mx-2 flex flex-row items-center justify-center'>
+				<TextInput
+					editable={form.global}
+					className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2 mx-1 flex-1'
+					placeholder='Amount'
+					onChangeText={(e) => {
+						setForm((prev) => ({...prev, globalAmt: e}));
+					}}
+					value={form.globalAmt}
+				/>
+				<TouchableOpacity
+					disabled={form.global}
+					className={`${buttonVariants.start} mr-1 ${
+						form.global && 'opacity-80'
+					}`}
+					onPress={() => {
+						setForm((prev) => ({...prev, global: true}));
+					}}
+				>
+					<Text className={buttonTextVariants.bet}>START</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					disabled={!form.global}
+					className={`${buttonVariants.stop} ${
+						!form.global && 'opacity-80'
+					}`}
+					onPress={() => {
+						setForm((prev) => ({...prev, global: false}));
+					}}
+				>
+					<Text className={buttonTextVariants.stop}>STOP</Text>
+				</TouchableOpacity>
+			</View>
 			<View className='flex justify-center items-center mt-22'>
 				<Modal
 					transparent={true}
