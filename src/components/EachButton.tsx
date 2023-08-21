@@ -30,7 +30,7 @@ export default function EachButton({
 		return (
 			<View>
 				<TouchableOpacity
-					className={bClassName}
+					className={`${bClassName} ${disabled && 'opacity-60'}`}
 					onPress={onPress}
 					disabled={disabled}
 				>
@@ -44,9 +44,15 @@ export default function EachButton({
 	if (idx === 8)
 		return (
 			<View>
-				<ImageBackground source={require('src/assets/images/nine.png')}>
+				<ImageBackground
+					source={require('src/assets/images/nine.png')}
+					className={disabled ? 'opacity-60' : ''}
+				>
 					<TouchableOpacity
-						className={buttonVariants.number_common}
+						disabled={disabled}
+						className={`${buttonVariants.number_common} ${
+							disabled && 'opacity-60'
+						}`}
 						onPress={onPress}
 					>
 						<Text className={buttonTextVariants.eb}>{text}</Text>
@@ -60,9 +66,15 @@ export default function EachButton({
 
 	return (
 		<View>
-			<ImageBackground source={require('src/assets/images/ten.png')}>
+			<ImageBackground
+				source={require('src/assets/images/ten.png')}
+				className={disabled ? 'opacity-60' : ''}
+			>
 				<TouchableOpacity
-					className={buttonVariants.number_common}
+					disabled={disabled}
+					className={`${buttonVariants.number_common} ${
+						disabled && 'opacity-60'
+					}`}
 					onPress={onPress}
 				>
 					<Text className={buttonTextVariants.eb}>{text}</Text>

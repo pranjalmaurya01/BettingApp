@@ -1,3 +1,4 @@
+import {WebSocketLike} from 'react-use-websocket/dist/lib/types';
 import request from 'src/axios/request';
 import {logout} from 'src/utils';
 import {create} from 'zustand';
@@ -12,13 +13,21 @@ export async function getButtonData() {
 }
 
 export interface WsI {
+	wsConnection: WebSocketLike | null;
 	data: get_bet_numberI | undefined;
 	buttonData: BetButtonsI[];
 	setButtonData: (data: BetButtonsI[]) => void;
 	setData: (data: get_bet_numberI) => void;
+	setWsConnection: (data: WebSocketLike) => void;
 }
 
 const useWs = create<WsI>((set) => ({
+	wsConnection: null,
+	setWsConnection: (ws) =>
+		set((state) => ({
+			...state,
+			wsConnection: ws,
+		})),
 	data: undefined,
 	buttonData: [],
 	setButtonData: (data) =>

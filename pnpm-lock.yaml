@@ -26,6 +26,9 @@ dependencies:
   expo:
     specifier: ~49.0.7
     version: 49.0.7(@babel/core@7.20.2)
+  expo-blur:
+    specifier: ~12.4.1
+    version: 12.4.1(expo@49.0.7)
   expo-clipboard:
     specifier: ~4.3.1
     version: 4.3.1(expo@49.0.7)
@@ -5482,6 +5485,14 @@ packages:
     transitivePeerDependencies:
       - expo
       - supports-color
+    dev: false
+
+  /expo-blur@12.4.1(expo@49.0.7):
+    resolution: {integrity: sha512-lGN8FS9LuGUlEriULTC62cCWyg5V7zSVQeJ6Duh1wSq8aAETinZ2/7wrT6o+Uhd/XVVxFNON2T25AGCOtMG6ew==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 49.0.7(@babel/core@7.20.2)
     dev: false
 
   /expo-clipboard@4.3.1(expo@49.0.7):

@@ -8,6 +8,7 @@ const buttonVariants = {
 	number_red: `${commonButton} bg-[#CA0000] text-white rounded-md h-10 w-full`,
 	number_green: `${commonButton} bg-[#01BB00] text-white rounded-md h-10 w-full`,
 	number_common: `${commonButton} w-full h-10 px-4 rounded-md`,
+	bet: `${commonButton} w-full h-8 px-4 rounded-md`,
 };
 
 const buttonTextVariants = {
@@ -16,6 +17,7 @@ const buttonTextVariants = {
 	greenHeader: 'text-white text-center',
 	whiteHeader: 'text-black text-center',
 	eb: 'text-white text-center text-lg',
+	bet: 'text-white text-center text-sm',
 };
 
 export {buttonTextVariants, buttonVariants};

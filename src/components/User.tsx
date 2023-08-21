@@ -11,6 +11,7 @@ export default function User({updateIsLoading}: {updateIsLoading: () => void}) {
 	const user = useUser((state) => state.data);
 	const setButtonData = useWs((state) => state.setButtonData);
 	const setWS = useWs((state) => state.setData);
+	const setWsConnection = useWs((state) => state.setWsConnection);
 
 	useEffect(() => {
 		(async () => {
@@ -30,11 +31,15 @@ export default function User({updateIsLoading}: {updateIsLoading: () => void}) {
 		})();
 	}, []);
 
-	const {sendJsonMessage} = useWebSocket(
+	const {sendJsonMessage, getWebSocket} = useWebSocket(
 		user ? `wss://${domain}/ws/winning/` : null,
 		{
+			shouldReconnect: () => true,
 			onOpen: () => {
-				console.log('Connected!');
+				const connection = getWebSocket();
+				if (connection) {
+					setWsConnection(connection);
+				}
 				sendJsonMessage({
 					action: 'get_bet_number',
 				});
