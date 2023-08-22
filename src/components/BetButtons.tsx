@@ -9,7 +9,6 @@ import {
 	View,
 } from 'react-native';
 import Toast from 'react-native-root-toast';
-import {FlatGrid} from 'react-native-super-grid';
 import request from 'src/axios/request';
 import useUser from 'src/store/useUser';
 import useWallet, {getWallet} from 'src/store/useWallet';
@@ -120,36 +119,39 @@ export default function BetButtons({
 		}));
 	}
 
+	function onEachButtonPress({item}: {item: BetButtonsI}) {
+		if (form.global) {
+			createBet(item.id);
+			return;
+		}
+		setState((prev) => ({
+			...prev,
+			selectedNumber: item,
+		}));
+	}
+
 	return (
 		<View className='relative'>
-			<FlatGrid
-				itemDimension={10}
-				maxItemsPerRow={4}
-				data={buttonData}
-				renderItem={({item, index}) =>
-					item.bet_number !== -1 ? (
-						<EachButton
-							text={item.bet_number}
-							disabled={disableButton}
-							idx={index}
-							tBetAmt={bettingData[item.bet_number]}
-							onPress={() => {
-								if (form.global) {
-									createBet(item.id);
-									return;
-								}
-								setState((prev) => ({
-									...prev,
-									selectedNumber: item,
-								}));
-							}}
-						/>
+			<View className='flex flex-row flex-wrap px-1'>
+				{buttonData.map((item, index) => {
+					return item.bet_number !== -1 ? (
+						<View className='w-[25%] p-1' key={index}>
+							<EachButton
+								text={item.bet_number}
+								disabled={disableButton}
+								idx={index}
+								tBetAmt={bettingData[item.bet_number]}
+								onPress={() => {
+									onEachButtonPress({item});
+								}}
+							/>
+						</View>
 					) : (
-						<></>
-					)
-				}
-			/>
-			<View className='mx-2 flex flex-row items-center justify-center'>
+						<View key={index} className='w-[25%] p-1' />
+					);
+				})}
+			</View>
+			<View className='mx-1 mt-3 flex flex-row items-center justify-center'>
 				<TextInput
 					editable={form.global}
 					className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2 mx-1 flex-1'

@@ -14,11 +14,11 @@ export default function Dashboard() {
 	const [refreshing, setRefreshing] = useState(false);
 
 	const onRefresh = () => {
-		setRefreshing(true);
+		if (wsConnection && !wsConnection.OPEN) setRefreshing(true);
 	};
 
 	useEffect(() => {
-		if (wsConnection && wsConnection.OPEN && refreshing) {
+		if (refreshing && wsConnection && wsConnection.OPEN) {
 			setRefreshing(false);
 		}
 	}, [wsConnection]);
@@ -39,15 +39,18 @@ export default function Dashboard() {
 	}
 
 	return (
-		<>
+		<ScrollView
+			refreshControl={
+				<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+			}
+		>
 			<DashboardHeader remTime={wsData.remaining_time} />
 			<StopWatch />
-			<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 			<IdCountdown remTime={wsData.remaining_time} />
 			<BetButtons
 				remTime={wsData.remaining_time}
 				bettingData={wsData.bettingButtonData}
 			/>
-		</>
+		</ScrollView>
 	);
 }
