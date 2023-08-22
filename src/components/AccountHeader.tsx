@@ -29,7 +29,7 @@ export default function AccountHeader({title}: {title: string}) {
 				}}
 				className='flex hover:cursor-pointer'
 			>
-				<AntDesign name='left' size={15} color='white' />
+				<AntDesign name='left' size={20} color='white' />
 			</TouchableOpacity>
 			<Text className='font-semibold text-center text-white text-lg'>
 				{title}

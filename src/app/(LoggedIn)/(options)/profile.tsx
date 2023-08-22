@@ -18,7 +18,7 @@ export default function Profile() {
 					}}
 					className='flex hover:cursor-pointer'
 				>
-					<AntDesign name='left' size={15} color='white' />
+					<AntDesign name='left' size={20} color='white' />
 				</TouchableOpacity>
 				<Text className='text-center text-white text-lg font-semibold'>
 					Profile
