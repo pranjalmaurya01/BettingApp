@@ -1,8 +1,12 @@
+import {AntDesign} from '@expo/vector-icons';
+import {BlurView} from 'expo-blur';
 import {Link} from 'expo-router';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {
 	ActivityIndicator,
+	FlatList,
 	Image,
+	Modal,
 	Text,
 	TouchableOpacity,
 	View,
@@ -31,7 +35,7 @@ export default function DashboardHeader({remTime}: {remTime: string}) {
 
 function Lower({remTime}: {remTime: string}) {
 	const user = useUser((store) => store.data);
-
+	const [showRules, setShowRules] = useState(false);
 	const {amt, setAmt} = useWallet((state) => state);
 
 	const setWalletData = async () => {
@@ -94,22 +98,96 @@ function Lower({remTime}: {remTime: string}) {
 								</Text>
 							</TouchableOpacity>
 						</Link>
-						<Link href='/dashboard/rules' asChild>
-							<TouchableOpacity
-								className={`${buttonVariants.whiteHeader}`}
+						<TouchableOpacity
+							onPress={() => {
+								setShowRules(true);
+							}}
+							className={`${buttonVariants.whiteHeader}`}
+						>
+							<Rules className='mr-1' />
+							<Text
+								className={`${buttonTextVariants.whiteHeader}`}
 							>
-								<Rules className='mr-1' />
-								<Text
-									className={`${buttonTextVariants.whiteHeader}`}
-								>
-									Rules
-								</Text>
-							</TouchableOpacity>
-						</Link>
+								Rules
+							</Text>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</View>
 			<View className='bg-[#FFF879]/70 h-4 -mt-2 rounded-b-full w-[90%] mx-auto' />
+			<View className='flex justify-center items-center mt-22'>
+				<Modal
+					transparent={true}
+					visible={showRules}
+					onRequestClose={() => {
+						setShowRules(false);
+					}}
+				>
+					<BlurView
+						tint='light'
+						intensity={100}
+						style={{
+							position: 'absolute',
+							height: '100%',
+							width: '100%',
+						}}
+					>
+						<View className='flex-1 justify-center items-center'>
+							<View className='bg-white w-[90vw] rounded-lg py-3 px-3'>
+								<View className='flex flex-row items-center justify-between py-2'>
+									<View />
+									<Text className='text-center font-semibold text-lg'>
+										Game Rules
+									</Text>
+									<TouchableOpacity
+										className='p-1'
+										onPress={() => {
+											setShowRules(false);
+										}}
+									>
+										<AntDesign
+											name='closecircleo'
+											size={20}
+											color='gray'
+										/>
+									</TouchableOpacity>
+								</View>
+								<View className='border-t-2 border-gray-300'>
+									<FlatList
+										contentContainerStyle={{padding: 10}}
+										data={[
+											{
+												key: 'USERS CAN CHOOSE AND BET ON ANY NUMBERS AMONG 10 NUMBERS GIVEN.',
+											},
+											{
+												key: 'THERE WILL BE 5 WINNING NUMBERS EVERY TIME AMONG OF THOSE 10 NUMBERS.',
+											},
+											{
+												key: 'WINNING NUMBERS WILL BE THOSE WITH THE LOWEST BETTING AMOUNTS.',
+											},
+											{
+												key: 'USERS WITH WINNING BETS WILL WIN 2X AMOUNT ON THEIR BETS.',
+											},
+										]}
+										renderItem={({item, index}) => {
+											return (
+												<View className='mb-2 flex flex-row'>
+													<Text className='font-semibold text-sm'>
+														{index + 1}.{' '}
+													</Text>
+													<Text className='text-md'>
+														{item.key}
+													</Text>
+												</View>
+											);
+										}}
+									/>
+								</View>
+							</View>
+						</View>
+					</BlurView>
+				</Modal>
+			</View>
 		</>
 	);
 }

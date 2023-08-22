@@ -103,12 +103,6 @@ export default function Layout() {
 						},
 					}}
 				/>
-				<Tabs.Screen
-					name='dashboard/rules'
-					options={{
-						href: null,
-					}}
-				/>
 			</Tabs>
 		</>
 	);
