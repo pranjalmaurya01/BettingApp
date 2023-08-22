@@ -133,7 +133,7 @@ function Lower({remTime}: {remTime: string}) {
 						}}
 					>
 						<View className='flex-1 justify-center items-center'>
-							<View className='bg-white w-[90vw] rounded-lg py-3 px-3'>
+							<View className='bg-white w-[90vw] rounded-lg'>
 								<View className='flex flex-row items-center justify-between py-2'>
 									<View />
 									<Text className='text-center font-semibold text-lg'>

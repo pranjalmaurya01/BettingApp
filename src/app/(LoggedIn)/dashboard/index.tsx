@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {RefreshControl, ScrollView} from 'react-native';
 import BetButtons from 'src/components/BetButtons';
 
@@ -14,14 +14,14 @@ export default function Dashboard() {
 	const [refreshing, setRefreshing] = useState(false);
 
 	const onRefresh = () => {
-		if (wsConnection) {
-			wsConnection.close();
-			setRefreshing(true);
-			setTimeout(() => {
-				setRefreshing(false);
-			}, 1000);
-		}
+		setRefreshing(true);
 	};
+
+	useEffect(() => {
+		if (wsConnection && wsConnection.OPEN && refreshing) {
+			setRefreshing(false);
+		}
+	}, [wsConnection]);
 
 	if (!wsData) {
 		return (
