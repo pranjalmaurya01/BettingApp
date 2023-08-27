@@ -1,14 +1,14 @@
 import * as Clipboard from 'expo-clipboard';
-import {useEffect} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import { useEffect } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import AccountHeader from 'src/components/AccountHeader';
-import {buttonTextVariants, buttonVariants} from 'src/components/Button';
+import { buttonTextVariants, buttonVariants } from 'src/components/Button';
 import useUser from 'src/store/useUser';
-import useWallet, {getWallet} from 'src/store/useWallet';
+import useWallet, { getWallet } from 'src/store/useWallet';
 
 export default function Profile() {
 	const user = useUser((state) => state.data);
-	const {setAmt} = useWallet((state) => state);
+	const { setAmt } = useWallet((state) => state);
 
 	useEffect(() => {
 		(async () => {
@@ -47,13 +47,8 @@ export default function Profile() {
 				</View>
 				<View className='mt-4 text-xs'>
 					<Text className='mb-1'>
-						Refer your friends and earn money.
-					</Text>
-					<Text className='font-light'>
-						just copy the below link with the referral code and
-						share it with your friends. Get 40 rs. on your friend
-						first recharge(* minimum 100 rs.) directly credited to
-						your account.
+						Refer your friend and now earn 2% on every bet placed by
+						your friend for LIFETIME.
 					</Text>
 				</View>
 				<View className='mt-4'>

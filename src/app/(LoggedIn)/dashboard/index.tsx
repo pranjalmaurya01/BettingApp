@@ -7,6 +7,7 @@ import DashboardHeader, {
 	StopWatch,
 } from 'src/components/DashboardHeader';
 import Pause from 'src/components/Pause';
+import PrevTable from 'src/components/PrevTable';
 import useWs from 'src/store/useWs';
 
 export default function Dashboard() {
@@ -109,6 +110,7 @@ export default function Dashboard() {
 				remTime={wsData.remaining_time}
 				bettingData={wsData.bettingButtonData}
 			/>
+			<PrevTable remTime={wsData.remaining_time} />
 		</ScrollView>
 	);
 }
