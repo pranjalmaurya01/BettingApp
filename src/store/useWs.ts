@@ -1,10 +1,13 @@
-import {WebSocketLike} from 'react-use-websocket/dist/lib/types';
+import { WebSocketLike } from 'react-use-websocket/dist/lib/types';
 import request from 'src/axios/request';
-import {logout} from 'src/utils';
-import {create} from 'zustand';
+import { logout } from 'src/utils';
+import { create } from 'zustand';
 
 export async function getButtonData() {
-	const {HttpStatusCode, status, data} = await request('GET', '/bet/choice/');
+	const { HttpStatusCode, status, data } = await request(
+		'GET',
+		'/bet/choice/'
+	);
 	if (status === HttpStatusCode.OK && data) {
 		return data;
 	}
@@ -13,6 +16,10 @@ export async function getButtonData() {
 }
 
 export interface WsI {
+	timerData: timerDataI | undefined;
+	setTimerData: (t: timerDataI) => void;
+	setTimerWsConn: (data: WebSocketLike) => void;
+	wsTimerConn: WebSocketLike | null;
 	wsConnection: WebSocketLike | null;
 	data: get_bet_numberI | undefined;
 	buttonData: BetButtonsI[];
@@ -22,6 +29,18 @@ export interface WsI {
 }
 
 const useWs = create<WsI>((set) => ({
+	timerData: undefined,
+	setTimerData: (t) =>
+		set((state) => ({
+			...state,
+			timerData: t,
+		})),
+	setTimerWsConn: (ws) =>
+		set((state) => ({
+			...state,
+			wsTimerConn: ws,
+		})),
+	wsTimerConn: null,
 	wsConnection: null,
 	setWsConnection: (ws) =>
 		set((state) => ({

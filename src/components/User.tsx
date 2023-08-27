@@ -1,17 +1,24 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
-import {domain} from 'src/axios/baseUrl';
-import {getUserAsyncStorage} from 'src/axios/user';
-import useUser, {getUserData} from 'src/store/useUser';
-import useWs, {getButtonData} from 'src/store/useWs';
-import {logout} from 'src/utils';
+import { domain } from 'src/axios/baseUrl';
+import { getUserAsyncStorage } from 'src/axios/user';
+import useUser, { getUserData } from 'src/store/useUser';
+import useWs, { getButtonData } from 'src/store/useWs';
+import { logout } from 'src/utils';
 
-export default function User({updateIsLoading}: {updateIsLoading: () => void}) {
+export default function User({
+	updateIsLoading,
+}: {
+	updateIsLoading: () => void;
+}) {
 	const setData = useUser((state) => state.setData);
 	const user = useUser((state) => state.data);
 	const setButtonData = useWs((state) => state.setButtonData);
 	const setWS = useWs((state) => state.setData);
 	const setWsConnection = useWs((state) => state.setWsConnection);
+	const setTimerWsConn = useWs((state) => state.setTimerWsConn);
+	const setTimerData = useWs((state) => state.setTimerData);
+	const timerData = useWs((state) => state.timerData);
 
 	useEffect(() => {
 		(async () => {
@@ -31,8 +38,10 @@ export default function User({updateIsLoading}: {updateIsLoading: () => void}) {
 		})();
 	}, []);
 
-	const {sendJsonMessage, getWebSocket} = useWebSocket(
-		user ? `wss://${domain}/ws/winning/` : null,
+	const { sendJsonMessage, getWebSocket } = useWebSocket(
+		user && timerData && timerData.status === false
+			? `wss://${domain}/ws/winning/`
+			: null,
 		{
 			shouldReconnect: () => true,
 			onOpen: () => {
@@ -64,6 +73,30 @@ export default function User({updateIsLoading}: {updateIsLoading: () => void}) {
 					default:
 						break;
 				}
+			},
+		}
+	);
+
+	const { sendJsonMessage: sendMessage, getWebSocket: getWS } = useWebSocket(
+		`wss://${domain}/ws/winning/`,
+		{
+			shouldReconnect: () => true,
+			onOpen: () => {
+				const connection = getWS();
+				if (connection) {
+					setTimerWsConn(connection);
+				}
+				sendMessage({
+					action: 'get_timer',
+				});
+			},
+			onClose: () => {
+				console.log('Disconnected!');
+			},
+			// onMessage handler
+			onMessage: (e: any) => {
+				const data = JSON.parse(e.data);
+				setTimerData(data);
 			},
 		}
 	);

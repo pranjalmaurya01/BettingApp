@@ -7,17 +7,10 @@ const defaultConfig = getDefaultConfig(__dirname, {
   isCSSEnabled: true,
 })
 
-const { assetExts, sourceExts } = defaultConfig.resolver;
 
-const config = {
-  ...defaultConfig,
-  transformer: {
-    babelTransformerPath: require.resolve("react-native-svg-transformer")
-  },
-  resolver: {
-    assetExts: assetExts.filter((ext) => ext !== "svg"),
-    sourceExts: [...sourceExts, "svg"]
-  }
-}
 
-module.exports = config;
+defaultConfig.transformer.babelTransformerPath = require.resolve("react-native-svg-transformer")
+defaultConfig.resolver.assetExts = defaultConfig.resolver.assetExts.filter((ext) => ext !== "svg")
+defaultConfig.resolver.sourceExts = [...defaultConfig.resolver.sourceExts, "svg"]
+
+module.exports = defaultConfig;

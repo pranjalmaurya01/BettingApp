@@ -1,7 +1,7 @@
-import {ImageBackground, Text, TouchableOpacity, View} from 'react-native';
-import {buttonTextVariants, buttonVariants} from './Button';
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { buttonTextVariants, buttonVariants } from './Button';
 
-const colorCombination: {[key: number]: keyof typeof buttonVariants} = {
+const colorCombination: { [key: number]: keyof typeof buttonVariants } = {
 	0: 'number_red',
 	1: 'number_green',
 	2: 'number_red',
@@ -37,7 +37,7 @@ export default function EachButton({
 					<Text className={buttonTextVariants.eb}>{text}</Text>
 				</TouchableOpacity>
 				<Text className='text-center text-gray-600 text-sm'>
-					{tBetAmt}
+					{tBetAmt || 0}
 				</Text>
 			</View>
 		);
@@ -59,7 +59,7 @@ export default function EachButton({
 					</TouchableOpacity>
 				</ImageBackground>
 				<Text className='text-center text-gray-600 text-sm'>
-					{tBetAmt}
+					{tBetAmt || 0}
 				</Text>
 			</View>
 		);
@@ -80,7 +80,9 @@ export default function EachButton({
 					<Text className={buttonTextVariants.eb}>{text}</Text>
 				</TouchableOpacity>
 			</ImageBackground>
-			<Text className='text-center text-gray-600 text-sm'>{tBetAmt}</Text>
+			<Text className='text-center text-gray-600 text-sm'>
+				{tBetAmt || 0}
+			</Text>
 		</View>
 	);
 }

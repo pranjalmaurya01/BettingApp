@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "app",
+    "name": "TableNo21",
     "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/assets/images/playstore.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./src/assets/images/splash.png",
+      "image": "./src/assets/images/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/playstore.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.pranjalmaurya.app"
@@ -28,7 +28,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./src/assets/images/favicon.png"
+      "favicon": "./src/assets/images/logo.png"
     },
     "plugins": [
       "expo-router"

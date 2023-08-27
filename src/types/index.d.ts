@@ -22,3 +22,10 @@ interface BetButtonsI {
 	id: number;
 	bet_number: number;
 }
+
+interface timerDataI {
+	status: boolean;
+	remaining_time: string;
+	end_time: string;
+	start_time: string;
+}
